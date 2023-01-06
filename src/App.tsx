@@ -41,15 +41,20 @@ function App() {
                 setCurrentMessage(parseSimsString(messagesArray[newIndex]));
             }
             if(messagesArray[newIndex].progress){
-                let progressCount = 0;
+                let secondAdd = Math.round((messagesArray[newIndex].progress! - 99) / 4); //todo: get the divisor from the backend
+                secondAdd = secondAdd ? secondAdd : 1;
+                const firstAdd = 9; //todo: get the first addend from the backend
+                let progressCount = 0 - firstAdd;
+                let curEnd = messagesArray[newIndex].progress!;
                 const progressInterval = setInterval(() => {
                     setCurrentMessage(oldString => {
                         let newString = [...oldString];
-                        newString[newString.length - 1] = ` ${(progressCount)}%`;
-                        progressCount+= progressCount < 99 ? 11 : 39;
-                        if(progressCount >= 350){
+                        progressCount+= progressCount < 99 ? firstAdd : secondAdd;
+                        if(progressCount > curEnd){
+                            progressCount = curEnd;
                             clearInterval(progressInterval);
                         }
+                        newString[newString.length - 1] = ` ${(progressCount)}%`;
                         return newString;
                     });
                 },1000);
