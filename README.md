@@ -1,7 +1,7 @@
 # Строка в стиле загрузочного экрана The Sims для стримов Zanuda
 
-Сайт https://loading.zanudas.ru
-Изменение записей https://www.zanudas.ru
+Сайт: https://loading.zanudas.ru \
+Изменение записей: https://www.zanudas.ru
 
 ## Create React App
 
