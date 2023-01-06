@@ -1,38 +1,92 @@
-.App {
-  text-align: center;
+.background {
+    background-color: #5E69EA;
+    
+    color: white;
+    font-size: 3rem;
+    
+    display: flex;
+    justify-content: center;
+    padding: .5em;
+
+    --dot-timing: 4s;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.message{
+    position: relative;
+}
+
+.effect-af{
+    color: transparent;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+  .effect-af {
+    animation: af infinite 4s linear;
+  }
+
+  .message{
+    animation: slide infinite 19s ease-in-out;
+  }
+
+  .dot1{
+    animation: dot1 infinite var(--dot-timing) step-start;
+  }
+  .dot2{
+    animation: dot2 infinite var(--dot-timing) step-start;
+  }
+  .dot3{
+    animation: dot3 infinite var(--dot-timing) step-start;
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+@keyframes dot1 {
+    from, 25%{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
+@keyframes dot2 {
+    from, 50%{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
+@keyframes dot3 {
+    from, 75%{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
 }
 
-.App-link {
-  color: #61dafb;
+@keyframes slide{
+    from{
+        left: 100%
+    }
+    2%,98%{
+        left: 0%
+    }
+    to{
+        left: -100%
+    }
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+@keyframes af {
+  from, to {
+    text-shadow: 0 0 12px white;
   }
-  to {
-    transform: rotate(360deg);
+  25%{
+    text-shadow: 0 0 6px white;
+  }
+  50%{
+    text-shadow: 0 0 9px white;
+  }
+  75%{
+    text-shadow: 0 0 0px white;
   }
 }
