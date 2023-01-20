@@ -24,6 +24,7 @@ function App() {
     const [currentMessage, setCurrentMessage] = useState<(string|JSX.Element)[]>(parseSimsString({message: 'ЗАГРУЖАЕМ СМЕШНЫЕ СООБЩЕНИЯ', triple_end_of: '.'}));
 
     useEffect(() => {
+        let progressInterval: NodeJS.Timer | undefined;
         const messagesLoop = setInterval(() => {
             if(messagesArray.length === 0){
                 messagesArray = [...bufArray];
@@ -40,19 +41,22 @@ function App() {
             }else{
                 setCurrentMessage(parseSimsString(messagesArray[newIndex]));
             }
+            clearInterval(progressInterval);
+            console.log(messagesArray[newIndex].progress)
             if(messagesArray[newIndex].progress){
                 let secondAdd = Math.round((messagesArray[newIndex].progress! - 99) / 4); //todo: get the divisor from the backend
                 secondAdd = secondAdd ? secondAdd : 1;
                 const firstAdd = 9; //todo: get the first addend from the backend
                 let progressCount = 0 - firstAdd;
                 let curEnd = messagesArray[newIndex].progress!;
-                const progressInterval = setInterval(() => {
+                progressInterval = setInterval(() => {
                     setCurrentMessage(oldString => {
                         let newString = [...oldString];
                         progressCount+= progressCount < 99 ? firstAdd : secondAdd;
                         if(progressCount > curEnd){
                             progressCount = curEnd;
                             clearInterval(progressInterval);
+                            progressInterval = undefined;
                         }
                         newString[newString.length - 1] = ` ${(progressCount)}%`;
                         return newString;
@@ -63,6 +67,7 @@ function App() {
         },19000);
         return () => {
             clearInterval(messagesLoop);
+            clearInterval(progressInterval);
         }
     },[])
 
