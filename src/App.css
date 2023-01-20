@@ -13,6 +13,23 @@
 
 .message{
     position: relative;
+    transition: all .38s ease-in-out;
+}
+
+.message.up{
+    top: -200px;
+}
+
+.message.left{
+    left: -100%;
+}
+
+.message.right{
+    left: 100%;
+}
+
+.message.center{
+    left: 0%;
 }
 
 .effect-af{
@@ -22,10 +39,6 @@
 @media (prefers-reduced-motion: no-preference) {
   .effect-af {
     animation: af infinite 4s linear;
-  }
-
-  .message{
-    animation: slide infinite 19s ease-in-out;
   }
 
   .dot1{
