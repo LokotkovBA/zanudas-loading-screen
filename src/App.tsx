@@ -15,7 +15,7 @@ const loadingMessageValidator = z.object({
 });
 
 async function getMessages(){
-    return z.array(loadingMessageValidator).parse((await (await getRequest('loading/info', 5100)).data));
+    return z.array(loadingMessageValidator).parse((await (await getRequest('loading', 5100)).data));
 }
 
 type LoadingMessage = z.infer<typeof loadingMessageValidator>;
