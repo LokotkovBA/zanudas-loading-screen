@@ -20,6 +20,45 @@ async function getMessages(){
 
 type LoadingMessage = z.infer<typeof loadingMessageValidator>;
 
+function getRandomInt(max: number){
+    return Math.floor(Math.random() * max);
+}
+
+function parseSimsString(input: LoadingMessage){
+    let buf = '';
+    let newString: (JSX.Element)[] = [];
+    let key = 0;
+    for(const char of input.message){
+        switch(char){
+            case '{':
+                newString.push(<span key={key}>{buf}</span>);
+                key++;
+                buf = '';
+                break;
+            case '}':
+                newString.push(<span className={`effect-af`} key={key}>{buf}</span>);
+                key++;
+                buf = '';
+                break;
+            default:
+                buf += char;
+        }
+    }
+    newString.push(<span key={key}>{buf}</span>);
+    key++;
+    newString.push(
+    <span key={key}>
+        <span className='dot1'>{input.triple_end_of}</span>
+        <span className='dot2'>{input.triple_end_of}</span>
+        <span className='dot3'>{input.triple_end_of}</span>
+    </span>);
+    key++
+    if(input.progress){
+        newString.push(<span key={key}> 0%</span>)
+    }
+    return newString;
+}
+
 function App() {
     const [currentMessage, setCurrentMessage] = useState<(string|JSX.Element)[]>(parseSimsString({message: 'ЗАГРУЖАЕМ СМЕШНЫЕ СООБЩЕНИЯ', triple_end_of: '.'}));
     const [positionState, setPositionState] = useState<string>('center');
@@ -87,45 +126,6 @@ function App() {
         },
         refetchOnWindowFocus: false
     });
-
-    function getRandomInt(max: number){
-        return Math.floor(Math.random() * max);
-    }
-
-    function parseSimsString(input: LoadingMessage){
-        let buf = '';
-        let newString: (JSX.Element)[] = [];
-        let key = 0;
-        for(const char of input.message){
-            switch(char){
-                case '{':
-                    newString.push(<span key={key}>{buf}</span>);
-                    key++;
-                    buf = '';
-                    break;
-                case '}':
-                    newString.push(<span className={`effect-af`} key={key}>{buf}</span>);
-                    key++;
-                    buf = '';
-                    break;
-                default:
-                    buf += char;
-            }
-        }
-        newString.push(<span key={key}>{buf}</span>);
-        key++;
-        newString.push(
-        <span key={key}>
-            <span className='dot1'>{input.triple_end_of}</span>
-            <span className='dot2'>{input.triple_end_of}</span>
-            <span className='dot3'>{input.triple_end_of}</span>
-        </span>);
-        key++
-        if(input.progress){
-            newString.push(<span key={key}> 0%</span>)
-        }
-        return newString;
-    }
 
     return (
     <div className="background">
